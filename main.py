@@ -1,4 +1,5 @@
 import numpy as np
+import os
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
@@ -96,3 +97,7 @@ def predict(data: AQIInput, current_user: str = Depends(get_current_user)):
         "Predicted_AQI": float(prediction[0][0]),
         "User": current_user
     }
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
